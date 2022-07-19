@@ -62,8 +62,8 @@ int main()
     head = insert(2, head);
     head = insert(3, head);
     head = insert(5, head);
-    //head = insert(7, head);
-    //head = insert(11, head); 
+    head = insert(7, head);
+    head = insert(11, head); 
 
     print(head); //2 3 5 7 11 
     print_reverse(head); //11 7 5 3 2 
