@@ -65,7 +65,7 @@ void reverse()
     current = head;
     prev = NULL;
 
-    while(current != NULL)
+    while(current != NULL) //Important
     {
         next = current->link;
         current->link = prev;
