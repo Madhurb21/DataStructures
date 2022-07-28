@@ -127,7 +127,6 @@ bool search_itr(struct node* root, int num)
             }
         }
     }
-    return false;
 }
 
 void found(bool search)
