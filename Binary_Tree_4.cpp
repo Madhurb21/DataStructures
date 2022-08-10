@@ -1,6 +1,5 @@
 #include <iostream>
 #include <stdlib.h>
-#include <queue>
 
 struct node
 {
@@ -61,70 +60,43 @@ bool search(struct node* root, int data)
     }
 }
 
-void found(bool Found)
+bool is_greater(struct node* root, int data)
 {
-    if(Found)
+    if(root == NULL) return true;
+    if((root->data > data) && is_greater(root->right, data) && is_greater(root->left,data))
     {
-        std::cout << "Found\n";
+        return true;
     }
     else
     {
-        std::cout << "Not Found\n";
+        return false;
     }
 }
 
-int max(int a, int b)
+bool is_lesser(struct node* root, int data)
 {
-    if(a >= b)
+    if(root == NULL) return true;
+    if((root->data <= data) && is_lesser(root->left, data) && is_lesser(root->left,data))
     {
-        return a;
+        return true;
     }
     else
     {
-        return b;
+        return false;
     }
 }
 
-int find_height(struct node* root)
+bool is_bst(struct node* root)
 {
-    if(root == NULL)
+    if(root == NULL) return true;
+    if(is_bst(root->left) && is_bst(root->right) && is_lesser(root->left, root->data) && is_greater(root->right, root->data))
     {
-        return -1;
+        return true;
     }
-    int height = max(find_height(root->left), find_height(root->right)) + 1;
-    return height;
-}
-
-void level_trav(struct node* root)
-{
-    std::queue<struct node*> Q; 
-
-    if(root == NULL)
+    else
     {
-        return;
+        return false;
     }
-
-    std::cout << "Tree -> ";
-
-    Q.push(root);
-    while(!Q.empty())
-    {
-        std::cout << Q.front()->data << " ";
-        if(Q.front()->left != NULL) Q.push(Q.front()->left);
-        if(Q.front()->right != NULL) Q.push(Q.front()->right);
-        Q.pop();
-    }
-}
-
-void inorder(struct node* root)
-{
-    if(root == NULL)
-    {
-        return;
-    }
-    inorder(root->left);
-    std::cout << root->data << " ";
-    inorder(root->right);
 }
 
 int main()
@@ -139,16 +111,14 @@ int main()
     root = insert(root, 12);
     root = insert(root, 17);
     root = insert(root, 25);
-
-    found(search(root, 20));
-    found(search(root, 17));
-    found(search(root, 18));
-
-    std::cout << "Height = " <<find_height(root) << std::endl;
-
-    level_trav(root);
-
-    std::cout << std::endl << "InOrder -> ";
-    inorder(root);
+    
+    if(is_bst(root))
+    {
+        std::cout << "Yes \n";
+    }
+    else
+    {
+        std::cout << "No \n";
+    }
     return 0;
 }
