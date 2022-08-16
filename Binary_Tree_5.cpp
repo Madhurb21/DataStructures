@@ -1,5 +1,6 @@
 #include <iostream>
 #include <Stdlib.h>
+#include <queue>
 
 int max(int a, int b)
 {
@@ -167,6 +168,155 @@ bool is_bst(struct node* root)
     }
 }
 
+void level_trav(struct node* root)
+{
+    std::queue<struct node*> Q;
+
+    if(root == NULL)
+    {
+        std::cout << "Empty tree\n";
+    }
+    else
+    {
+        Q.push(root);
+
+        while(!Q.empty())
+        {
+            if(Q.front()->left != NULL)
+            {
+                Q.push(Q.front()->left);
+            }
+            if(Q.front()->right != NULL)
+            {
+                Q.push(Q.front()->right);
+            }
+            std::cout << Q.front()->data << " ";
+            Q.pop();
+        }
+    }
+}
+
+void in_order(struct node* root)
+{
+    if(root == NULL)
+    {
+        return;
+    }
+    else
+    {
+        in_order(root->left);
+        std::cout << root->data << " ";
+        in_order(root->right);
+    }
+}
+
+/*
+struct node* find_min(struct node* root)
+{
+    while(root->left != NULL)
+    {
+        root = root->left;
+    }
+    return root;
+}
+
+struct node* delete_node(struct node* root, int data)
+{
+    if(root == NULL)
+    {
+        return root;
+    }
+    else
+    {
+        if(data < root->data)
+        {
+            root->left = delete_node(root->left, data);
+        }
+        else if(data > root->data)
+        {
+            root->right = delete_node(root->right, data);
+        }
+        else
+        {
+            if(root->left == NULL && root->right == NULL)
+            {
+                free(root);
+                root = NULL;
+            }
+            else if(root->left == NULL)
+            {
+                struct node* temp = root->right;
+                free(root);
+                root = temp;
+            }
+            else if(root->right == NULL)
+            {
+                struct node* temp = root->left;
+                free(root);
+                root = temp;
+            }
+            else
+            {
+                struct node* temp = find_min(root->right);
+                root->data = temp->data;
+                root = delete_node(root->right, temp->data);
+            }
+        }
+        return root;
+    }
+}
+*/
+
+struct node* find_min(struct node* root)
+{
+    while(root->left != NULL)
+    {
+        root = root->left;
+    }
+    return root;
+}
+
+struct node* delete_node(struct node* root, int data)
+{
+    if(root == NULL) return root;
+    else if(data < root->data) 
+    {
+        root->left = delete_node(root->left, data);
+    }
+    else if(data > root->data) 
+    {
+        root->right = delete_node(root->right, data);
+    }
+    else
+    {
+        if(root->left == NULL && root->right == NULL)
+        {
+            free(root);
+            root = NULL;
+        }
+        else if(root->left == NULL)
+        {
+            struct node* temp = root;
+            root = temp->right;
+            free(temp);
+        }
+        else if(root->right == NULL)
+        {
+            struct node* temp = root;
+            root = temp->left;
+            free(temp);
+        }
+        else
+        {
+            struct node* temp = find_min(root);
+            root->data = temp->data;
+
+            root->right = delete_node(root->right, data);
+        }
+    }
+    return root;
+}
+
 int main()
 {
     struct node* root;
@@ -190,4 +340,17 @@ int main()
     std::cout << height(root) << std::endl;
 
     std::cout << is_bst(root) << std::endl;
+
+    level_trav(root);
+
+    std::cout << std::endl;
+
+    in_order(root);
+
+    std::cout << std::endl;
+
+    root = delete_node(root, 25);
+
+    search(root, 25);
+    search(root, 15);
 }
