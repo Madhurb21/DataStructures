@@ -210,63 +210,6 @@ void in_order(struct node* root)
     }
 }
 
-/*
-struct node* find_min(struct node* root)
-{
-    while(root->left != NULL)
-    {
-        root = root->left;
-    }
-    return root;
-}
-
-struct node* delete_node(struct node* root, int data)
-{
-    if(root == NULL)
-    {
-        return root;
-    }
-    else
-    {
-        if(data < root->data)
-        {
-            root->left = delete_node(root->left, data);
-        }
-        else if(data > root->data)
-        {
-            root->right = delete_node(root->right, data);
-        }
-        else
-        {
-            if(root->left == NULL && root->right == NULL)
-            {
-                free(root);
-                root = NULL;
-            }
-            else if(root->left == NULL)
-            {
-                struct node* temp = root->right;
-                free(root);
-                root = temp;
-            }
-            else if(root->right == NULL)
-            {
-                struct node* temp = root->left;
-                free(root);
-                root = temp;
-            }
-            else
-            {
-                struct node* temp = find_min(root->right);
-                root->data = temp->data;
-                root = delete_node(root->right, temp->data);
-            }
-        }
-        return root;
-    }
-}
-*/
-
 struct node* find_min(struct node* root)
 {
     while(root->left != NULL)
@@ -316,7 +259,6 @@ struct node* delete_node(struct node* root, int data)
     }
     return root;
 }
-
 int main()
 {
     struct node* root;
